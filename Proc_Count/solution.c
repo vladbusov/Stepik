@@ -49,9 +49,10 @@ int main(int argc, const char *argv[])
 	        }
             
             char nameBuffer[256];
-            fgets(nameBuffer, sizeof(nameBuffer), fp);
-            
-            if (strcmp(CMP_STRING, nameBuffer) == 0)
+            float f;
+            fscanf(fp, "%s\n", nameBuffer);
+                        
+            if (strcmp(nameBuffer, CMP_STRING ) == 0)
             {
                 counter++;
             }
