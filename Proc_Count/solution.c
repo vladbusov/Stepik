@@ -13,6 +13,7 @@
 #include <regex.h>
 
 #define PATTERN "^[0-9]*$"
+#define CMP_STRING "genenv"
 
 int main(int argc, const char *argv[])
 {
@@ -37,7 +38,24 @@ int main(int argc, const char *argv[])
     {
         regerr = regexec( &preg, entry->d_name, 0, &pm, 0);
         if (regerr == 0) {
-            counter++;
+            char filePath[512];
+            sprintf(filePath,"/proc/%s/comm", entry->d_name);
+            FILE* fp;
+    
+            fp = fopen(filePath,"r");
+	        if(fp == NULL)
+	        {
+		        printf("не могу открыть файл '%s'",filePath);
+	        }
+            
+            char nameBuffer[256];
+            fgets(nameBuffer, sizeof(nameBuffer), fp);
+            
+            if (strcmp(CMP_STRING, nameBuffer) == 0)
+            {
+                counter++;
+            }
+            fclose(fp);
         }
     }
     printf("%d\n",counter);
